@@ -22,7 +22,20 @@ div[class="user-info"] {
 }
 
 input {
+    height: 25px;
     width: 250px;
     margin: 0px 30px;
 }
+
+button {
+    height: 30px;
+    background-color: white;
+    border: 1px solid #000;
+}
+
+button:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
 </style>

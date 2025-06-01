@@ -1,27 +1,15 @@
 <script>
-import UserInfo from './components/UserInfo';
-import Dashboard from './components/Dashboard';
-import UserPhoto from './components/UserPhoto'
+import RouterView from 'vue-router'
 export default {
-  name: 'App',
-  components: {
-    UserInfo,
-    Dashboard,
-    UserPhoto,
-  },
+  name:'App',
+  components: [
+    RouterView,
+  ]
 }
 </script>
 <template>
-  <div id="app">
-    <UserPhoto />
-    <UserInfo />
-  </div>
-  <Dashboard />
+  <RouterView />
 </template>
 <style scoped>
-#app {
-  background-color: lightblue;
-  display: flex;
-  justify-content: space-around;
-}
+
 </style>
