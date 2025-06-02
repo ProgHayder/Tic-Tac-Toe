@@ -28,9 +28,13 @@ export default {
         };
     },
     methods: {
-        searchFriends() {
-            // Implement search functionality here
+        removeFriend(index) {
+            this.friends.splice(index, 1);
         },
+        sendMessage(username) {
+            alert(`Sending message to ${username}`);
+            // Here you can implement the logic to send a message
+        }
     }
 }
 </script>
@@ -38,9 +42,13 @@ export default {
     <div class="outer-container">
         <div class="inner-container">
             <ol>
-                <li v-for="friend in friends" :key="friend.username">
+                <div class="friend" v-for="(friend, index) in friends" :key="friend.username">
                     <span>{{ friend.username }}</span>
-                </li>
+                    <div class="options">
+                        <button @click="sendMessage(friend.username)" class="message-button">Message</button>
+                        <button @click="removeFriend(index)" class="remove-button">Remove</button>
+                    </div>
+                </div>
             </ol>
         </div>
     </div>
@@ -74,14 +82,15 @@ ol {
     list-style-type: none;
 }
 
-li {
+div[class="friend"] {
     cursor: pointer;
+    padding: 0px;
     width: 97%;
     height: 50px;
     margin: 5px 0;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     background-color: white;
     border: 1px solid blueviolet;
     border-radius: 10px;
@@ -90,5 +99,12 @@ li {
 span {
     font-size: 20px;
     color: black;
+}
+
+.options {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 20%;
 }
 </style>
