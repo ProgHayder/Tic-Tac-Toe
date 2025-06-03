@@ -1,5 +1,6 @@
 import FriendsView from '@/views/FriendsView';
 import HomeView from '@/views/HomeView';
+import  ChatView from '@/views/ChatView'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -14,6 +15,12 @@ const router = createRouter({
             path: '/friends',
             name: 'friends',
             component: FriendsView
+        },
+        {
+            path: '/chat/:username',
+            name: 'Chat',
+            component: ChatView,
+            props: true
         }
     ]
 })

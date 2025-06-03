@@ -31,9 +31,8 @@ export default {
         removeFriend(index) {
             this.friends.splice(index, 1);
         },
-        sendMessage(username) {
-            alert(`Sending message to ${username}`);
-            // Here you can implement the logic to send a message
+        startChat(username) {
+            this.$router.push({ name: 'Chat', params: { username } });
         }
     }
 }
@@ -45,7 +44,7 @@ export default {
                 <div class="friend" v-for="(friend, index) in friends" :key="friend.username">
                     <span>{{ friend.username }}</span>
                     <div class="options">
-                        <button @click="sendMessage(friend.username)" class="message-button">Message</button>
+                        <button @click="startChat(friend.username)" class="message-button">Message</button>
                         <button @click="removeFriend(index)" class="remove-button">Remove</button>
                     </div>
                 </div>
@@ -82,7 +81,7 @@ ol {
     list-style-type: none;
 }
 
-div[class="friend"] {
+.friend {
     cursor: pointer;
     padding: 0px;
     width: 97%;
