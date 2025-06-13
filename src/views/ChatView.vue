@@ -49,7 +49,8 @@ export default {
                 </div>
             </div>
             <div class="text-area">
-                <input class="message-input" v-model="newMessage" @keyup.enter="sendMessage" placeholder="Type a message..." />
+                <input class="message-input" v-model="newMessage"
+                @keyup.enter="sendMessage" placeholder="Type a message..." />
                 <button @click="sendMessage">Send</button>
             </div>
         </div>

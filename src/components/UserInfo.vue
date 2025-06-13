@@ -1,15 +1,35 @@
 <script>
+import { bus } from '@/bus';
 export default {
     name: "UserInfo",
+    data() {
+        return {
+            username: ''
+        }
+    },
+    methods: {
+        FindMatch() {
+            if (!this.username) {
+                alert("Please enter a username.");
+                return;
+            }
+            bus.emit("opponent-joined", { name: this.username });
+            this.$router.push({ name: 'Match', 
+            params: { name: this.username } });
+        },
+        setUsername(event) {
+            this.username = event.target.value.trim()
+        }
+    }
 }
 </script>
 <template>
     <div class="user-info">
         <span>User Name:</span>
-        <input type="text" name="username" id="username" placeholder="Enter your username">
+        <input type="text" name="username" @input="setUsername" placeholder="Enter your username">
         <span>Invite Code:</span>
         <input type="text" name="invite_code" id="invite_code" placeholder="Enter the invite code">
-        <button type="button">Play</button>
+        <button type="button" @click="FindMatch">Play</button>
     </div>
 </template>
 <style scoped>
