@@ -1,10 +1,12 @@
 <script>
 import { bus } from '@/bus';
-import PlayerHeader from '@/components/PlayerHeader.vue';
+import PlayerHeader from '@/components/PlayerHeader';
+import GameBoard from '@/components/GameBoard';
 export default {
     name: 'MatchView',
     components: {
-        PlayerHeader
+        PlayerHeader,
+        GameBoard
     },
     props: {
         name: {
@@ -15,29 +17,37 @@ export default {
     data() {
         return {
             opponentName: 'Opponent',
+            activePlayer: Math.floor(Math.random() * 2),
+            turn: '',
+            current: 1,
         }
     },
     mounted() {
         bus.on('opponent-joined', (data) => {
             this.opponentName = data.name;
         });
+        bus.on('reversePlayer', () => {
+            this.activePlayer = !this.activePlayer;
+            this.current = this.activePlayer ? 1 : 0;
+            this.turn = this.activePlayer ? 'X' : 'O';
+        });
     },
     beforeMount() {
-        bus.off('opponent-joined')
-    },
-    created() {
-        
-    }   
+        bus.off('opponent-joined');
+        bus.off('reversePlayer');
+    }
 }
 </script>
 <template>
-    <div class="view">
-        <PlayerHeader :username="this.name" />
-        <div class="game-board">
-            <!-- Game board component will go here -->
-            <p>Game Board Placeholder</p>
-        </div>
-        <PlayerHeader :username="this.opponentName" />
+    <div v-if="activePlayer === 1" class="view">
+        <PlayerHeader :username="name" active='true' />
+        <GameBoard :player="this.current" :playerTurn="this.turn" />
+        <PlayerHeader :username="opponentName" />
+    </div>
+    <div v-if="activePlayer === 0" class="view">
+        <PlayerHeader :username="name" />
+        <GameBoard :player="this.current" :playerTurn="this.turn" />
+        <PlayerHeader :username="opponentName" active='true' />
     </div>
 </template>
 <style scoped>
@@ -46,15 +56,5 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-}
-.game-board {
-    width: 70%;
-    height: 500px;
-    background-color: lightgray;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: bold;
 }
 </style>

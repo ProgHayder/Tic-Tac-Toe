@@ -1,6 +1,6 @@
 <script>
+import { bus } from '@/bus';
 import UserPhoto from '@/components/UserPhoto.vue'
-
 export default {
     name: 'PlayerHeader',
     components: {
@@ -9,11 +9,17 @@ export default {
     props: {
         username: {
             type: String,
+            required: true,
             default: ''
         },
+        active: {
+            type: String,
+            default: 'false'
+        }
     },
     data() {
         return {
+            isActive: 'false',
             player_name: '',
             player_turn: '',
             player_score: 0,
@@ -22,23 +28,28 @@ export default {
     },
     mounted() {
         this.player_name = this.username;
-        this.player_turn = this.player_name === 'Opponent' ? 'O' : 'X';
+        this.player_turn = this.player_name !== 'Opponent' ? 'X' : 'O';
+        this.isActive = this.active
+        bus.emit('sendTurn', { turn: this.player_turn, player: this.player_name });
+    },
+    beforeMount() {
+        bus.off('reversePlayer')
+        bus.off('sendTurn');
     },
     unmounted() {
         
     }
 }
 </script>
-
 <template>
     <div class="container">
+        <span v-if="this.active === 'true'">Your Turn</span>
         <UserPhoto />
         <div class="username">{{ player_name }}</div>
         <span class="turn-container">{{ player_turn }}</span>
         <span class="score-container">Score:<br>{{ player_score }}</span>
     </div>
 </template>
-
 <style scoped>
 .container {
     height: 490px;
